@@ -47,6 +47,9 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') // index.html的DOM
 ); // 或 createElement ？這個還沒有教到。
 
+// 檔案原生的示範︰
+root.render(<App/>);
+
 // #region  JSX 語法
 
 // #region  1. Hello world! 將 DOM 元素，render 進 index.html
@@ -357,7 +360,7 @@ const root = ReactDOM.createRoot(
 
 // #region   1. 使用render方法
 
-root.render(<App/>);
+// root.render(<App/>);
 
 // #endregion 1
 
