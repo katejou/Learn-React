@@ -22,4 +22,10 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 //root.render(<Hook_useEffect />);
 root.render(<Class_likeEffect />);
 
+//之後很多筆記都在TxtNotes之中，官網不寫完整的範例，只寫片段來對比。
+
+//看到這裡︰
+//https://zh-hant.reactjs.org/docs/hooks-overview.html#building-your-own-hooks
+//https://zh-hant.reactjs.org/docs/hooks-rules.html
+
 

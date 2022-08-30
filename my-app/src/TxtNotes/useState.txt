@@ -1,0 +1,30 @@
+const [fruit, setFruit] = useState('banana');
+
+ 這個 JavaScript 語法叫做陣列解構賦值。
+ 這代表我們宣告了兩個新的變數 fruit 和 setFruit，
+ fruit 被設為 useState 回傳的第一個值，
+ setFruit 則是第二個。
+ 
+ 跟下面這段程式相同：
+
+ var fruitStateVariable = useState('banana'); // 回傳一對值
+
+  var fruit = fruitStateVariable[0]; // 第一個值
+  var setFruit = fruitStateVariable[1]; // 第二個值
+
+//你可以在一個 component 中使用 State Hook 不只一次：
+
+function ExampleWithManyStates() {
+  // 宣告多個 state 變數!
+  const [age, setAge] = useState(42);
+  const [fruit, setFruit] = useState("banana");
+  const [todos, setTodos] = useState([{ text: "Learn Hooks" }]);
+  // ...
+}
+
+//但你不需要使用很多 state 變數。
+state 變數可以是 object 或是 array，所以你可以把相關的資料放在一起。
+
+然而，不像 class 裡的 this.setState 會合併原本的 state，
+這裡更新 state 變數會直接取代。
+

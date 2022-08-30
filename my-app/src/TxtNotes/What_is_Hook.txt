@@ -1,43 +1,20 @@
 Hook 是 function，
+
 他讓你可以從 function component「hook into」React state 與生命週期功能。
 
-Hook 在 class 裡面沒有辦法用
+Hook 在 class 裡面沒有辦法用——他們讓你不用 class 就能使用 React。
 
-——他們讓你不用 class 就能使用 React。
-（我們不建議你通宵重寫現存的 component 
-但是如果你想要的話，你可以開始在新的 component 當中使用。）
+官方不建議重寫現存的 cladd component 
+但是如果你想要的話，你可以開始在新的 function component 當中使用。
 
 -------------------------------------------------
 
- const [fruit, setFruit] = useState('banana');
-
- 這個 JavaScript 語法叫做陣列解構賦值。
- 這代表我們宣告了兩個新的變數 fruit 和 setFruit，
- fruit 被設為 useState 回傳的第一個值，
- setFruit 則是第二個。
- 
- 跟下面這段程式相同：
-
- var fruitStateVariable = useState('banana'); // 回傳一對值
-
-  var fruit = fruitStateVariable[0]; // 第一個值
-  var setFruit = fruitStateVariable[1]; // 第二個值
-
-//你可以在一個 component 中使用 State Hook 不只一次：
-
-function ExampleWithManyStates() {
-  // 宣告多個 state 變數!
-  const [age, setAge] = useState(42);
-  const [fruit, setFruit] = useState("banana");
-  const [todos, setTodos] = useState([{ text: "Learn Hooks" }]);
-  // ...
-}
-
-//但你不需要使用很多 state 變數。
-state 變數可以是 object 或是 array，所以你可以把相關的資料放在一起。
-
-然而，不像 class 裡的 this.setState 會合併原本的 state，
-這裡更新 state 變數會直接取代。
-
-
 Hook 的名字都會以 use 起頭
+
+只在最上層呼叫 Hook。不要在迴圈、判斷式、或是嵌套 function 中呼叫 Hook。
+
+只在 React function component 呼叫 Hook。不要在一般 JavaScript function 中呼叫 Hook。
+
+（只有一個其他有效的地方可以呼叫 Hook——你自己的客製化 Hook。）
+
+-----------
