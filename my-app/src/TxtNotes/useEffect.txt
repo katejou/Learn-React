@@ -1,0 +1,228 @@
+如果你熟悉 React class 的生命週期方法，
+你可以把 useEffect 視為 componentDidMount，componentDidUpdate 和 componentWillUnmount? 的組合。
+
+componentWillUnmount? Component即將從實體DOM階段移除「之前」的時候觸發
+
+我們通常希望在 React 更新 DOM 之後執行我們的 effect。
+
+React component 有兩種常見的 side effect：
+一種不需要執行清除，另一種則需要。
+
+讓我們仔細看看它們區別:
+　
+---- | 無需清除的 Effect | ----
+
+    有時候，我們希望在 React 更新 DOM 之後執行一些額外的程式碼。
+    網路請求、手動變更 DOM、和 logging．．．．
+    它們都是無需清除 effect 的常見範例。
+
+    我們之所以這樣說，是因為我們可以執行它們，並立即忘記它們。
+    讓我們比較一下 class 和 Hooks 如何讓我們表達這樣的 side effect。
+
+    見          Class_likeEffect
+    對比        Hook_useEffect
+
+    useEffect 有什麼作用？ 
+      透過使用這個 Hook，你告訴 React 你的 component 需要在 render 後做一些事情。
+
+    在這個例子中，我們設定了網頁的標題，但我們也可以
+    +++++「執行資料提取 或 呼叫其他命令式 API」+++++。
+
+    為什麼在 component 內部呼叫 useEffect？ 
+        在 component 中放置 useEffect 讓我們可以直接從 effect 中存取 count state 變數（或任何 props）。
+    我們不需要特殊的 API 來讀取它 — 它已經在 function 範圍內了。
+
+    每次 render 後都會執行 useEffect 嗎？ 
+        是的！預設情況下，它在第一個 render 和隨後每一個更新之後執行。
+    你可能會發現把 effect 想成發生在「render 之後」更為容易，而不是考慮「mount」和「更新」。 
+
+    React 保證 DOM 在執行 effect 時已被更新。
+
+    與 componentDidMount 或 componentDidUpdate 不同，
+    使用 useEffect 安排的 effect 不會阻止瀏覽器更新螢幕。
+    
+        這使你的應用程式感覺起來響應更快。
+        大多數 effect 不需要同步發生。
+
+    在少見的需要同步發生的情況下    （例如測量 layout），
+    有另外一個 useLayoutEffect Hook 不能和 API 的路與 useEffect 相同
+
+
+---- | 需要清除的 Effect | ---- 
+
+
+    先前，我們理解了怎樣表達不需要任何清除的 side effect。
+    但是，有些 effect 需要。
+    
+    例如，我們可能想要設定對某些外部資料來源的 subscription。
+    在這種情況下，請務必進行清除，以免造成 memory leak！
+    讓我們比較一下我們可以如何用 class 和 Hook 做到這一點。
+
+    使用 Class 的範例
+    在 React class 中，你通常會在 componentDidMount 中設定一個 subscription，
+    然後在 componentWillUnmount 中把它清除。
+    例如，假設我們有一個 ChatAPI module 可讓我們訂閱朋友的線上狀態。
+    我們可能會這樣用 class 來訂閱和顯示該狀態：
+
+    如︰Class_FriendStatus.js
+
+    敏銳的讀者可能會注意到，要做到完全正確，這個範例還需要 componentDidUpdate。
+    我們現在將暫時忽略這一點，但在這頁的稍後部分我們會再次討論這點。
+
+
+    使用 Hook 的範例: Hook_FriendStatus.js
+    (在 useEffect 中設定一個方法，由建和消兩者共同引用，而且只回傳消的方法。)
+
+    為什麼我們從 effect 中回傳一個 function？ 
+    這是 effect 的可選清除機制。
+    每個 effect 都可以回傳一個會在它之後執行清除的 function。
+    這使我們可以把新增和移除 subscription 的邏輯彼此保持靠近。
+    它們都屬於同一個 effect！
+
+    React 到底什麼時候會清除 effect？ 
+    在 component unmount 時，React 會執行清除。
+    但是，正如我們之前看到的，effect 會在每個 render 中執行，而不僅僅是一次。
+    這是為什麼 React 還可以在下次執行 effect 之前清除前一個 render 的 effect 的原因。
+
+總結
+我們看到了 useEffect 可以讓我們在 component render 後表達不同類型的 side effect。
+某些 effect 可能需要進行清除，
+componentDidMount，componentDidUpdate 和 componentWillUnmount
+因此它們回傳一個 function：
+
+useEffect(() => {
+    function handleStatusChange(status) {
+      setIsOnline(status.isOnline);
+    }
+
+    ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange);
+    return () => {
+      ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange);
+    };
+  });
+
+其他 effect 可能沒有清除的階段，
+componentDidMount 和 componentDidUpdate
+並且不回傳任何內容:
+
+  useEffect(() => {
+    document.title = `You clicked ${count} times`;
+  });
+
+  Effect Hook 通過單個 API 統一了這兩種使用情境。
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    就像你可以多次使用 State Hook，你同樣可以用多個 effect。
+    這使我們可以將無關的邏輯分為不同的 effect：
+
+    在 Class_Muti_Friend
+
+    注意設定 document.title 的邏輯是如何在 componentDidMount 和 componentDidUpdate 之間分配的。
+    subscription 的邏輯也分佈在 componentDidMount 和 componentWillUnmount 之間。
+    而且 componentDidMount 包含了兩個工作的程式碼。
+    (還要記得配合 componentDidUpdate 來…)
+
+    在 Hook_Muti_Friend
+
+    相關的 useEffect 和 useState 寫在一起，比較容易一起管理。
+    uesState    包了 componentDidUpdate (相關屬性) 的功能，
+    useEffect   包了 componentDidMount ﹑componentDidUpdate 和 componentWillUnmount (相關訂閱) 的功能。
+
+    過程是這樣的︰
+
+// Mount with { friend: { id: 100 } } props
+ChatAPI.subscribeToFriendStatus(100, handleStatusChange);     // 執行第一個 effect
+
+// Update with { friend: { id: 200 } } props
+ChatAPI.unsubscribeFromFriendStatus(100, handleStatusChange); // 清除前一個 effect
+ChatAPI.subscribeToFriendStatus(200, handleStatusChange);     // 執行下一個 effect
+
+// Update with { friend: { id: 300 } } props
+ChatAPI.unsubscribeFromFriendStatus(200, handleStatusChange); // 清除前一個 effect
+ChatAPI.subscribeToFriendStatus(300, handleStatusChange);     // 執行下一個 effect
+
+// Unmount
+ChatAPI.unsubscribeFromFriendStatus(300, handleStatusChange); // 清除最後一個 effect
+
+        如果用Class : componentDidUpdate 要在每次這個id屬性改動的時候，都要用一用… 不止是元 DidMount﹑WillUnmount…)
+        如果用Hook︰它沒有受這個 bug 的困擾。（沒有要對它進行任何更改。）
+                    因為它都是一個 useEffect 之中，發生和解決的事…
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+---- | 通過忽略 Effect 來最佳化效能 | ----
+
+用Class而要忽略的話︰
+
+componentDidUpdate(prevProps, prevState) {
+  if (prevState.count !== this.state.count) {  //<----
+    document.title = `You clicked ${this.state.count} times`;
+  }
+}
+
+用Hook而要忽略的話︰
+
+useEffect(() => {
+  document.title = `You clicked ${count} times`;
+}, [count]); // 僅在計數更改時才重新執行 effect
+
+將 array 作為可選的第二個參數傳遞給 useEffect：
+
+在上面的範例中，
+
+如果 count 是 5，
+然後我們的 component 重新 render，count 仍然等於 5，
+
+React 將比對前一個 render 的 [5] 和下一個 render 的 [5]。
+因為 array 中的每一項都相同（5 === 5），
+
+所以 React 將忽略這個 effect。那就是我們的最佳化。
+
+
+這也適用於有清除階段的 effect:
+useEffect(() => {
+  function handleStatusChange(status) {
+    setIsOnline(status.isOnline);
+  }
+
+  ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange);
+  return () => {
+    ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange);
+  };
+}, [props.friend.id]); // 僅在 props.friend.id 改變時重新訂閱
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

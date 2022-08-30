@@ -1,17 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+/* eslint-disable react/jsx-pascal-case */
+import React, { useState } from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import Game from "./App/Square_Board_Game";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+import Hook_useState from "./App/Hooks_useState";
+import Class_LikeState from "./App/Class_likeState";
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+import Hook_useEffect from "./App/Hooks_useEffect";
+import Class_likeEffect from "./App/Class_likeState";
+// ========================================
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+//root.render(<Game />);
+
+//實作Hook https://zh-hant.reactjs.org/docs/hooks-overview.html
+
+//root.render(<Hook_useState />); //<--比較省，新，官推
+//root.render(<Class_LikeState />);
+
+//root.render(<Hook_useEffect />);
+root.render(<Class_likeEffect />);
+
+

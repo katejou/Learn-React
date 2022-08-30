@@ -1,0 +1,13 @@
+在 React 中 function component 看起來像這樣：
+
+1.
+const Example = (props) => {
+  // 你可以在這裡使用 Hook！
+  return <div />;
+}
+
+2.
+function Example(props) {
+  // 你可以在這裡使用 Hook！
+  return <div />;
+}
