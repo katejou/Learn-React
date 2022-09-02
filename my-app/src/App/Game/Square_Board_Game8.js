@@ -9,45 +9,53 @@ function Square(props) {
 }
 
 class Board extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      squares: Array(9).fill(null),
-      xIsNext: true, //<--
-    };
-  }
+  // 放到 Game
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     squares: Array(9).fill(null),
+  //     xIsNext: true,
+  //   };
+  // }
 
-  handleClick(i) {
-    const squares = this.state.squares.slice();
-    //squares[i] = "X";
-    squares[i] = this.state.xIsNext ? "X" : "O"; //<-- 1
-    this.setState({
-      squares: squares,
-      xIsNext: !this.state.xIsNext, //<-- 下一個
-    });
-  }
+  //移到Game並修改
+  // handleClick(i) {
+  //   const squares = this.state.squares.slice();
+  //   if (calculateWinner(squares) || squares[i]) {
+  //     return;
+  //   }
+  //   squares[i] = this.state.xIsNext ? "X" : "O";
+  //   this.setState({
+  //     squares: squares,
+  //     xIsNext: !this.state.xIsNext,
+  //   });
+  // }
 
   renderSquare(i) {
     return (
       <Square
-        value={this.state.squares[i]} //<-- 2
-        onClick={() => this.handleClick(i)}
+        // value={this.state.squares[i]}
+        // onClick={() => this.handleClick(i)}
+        //改成下方的︰
+        value={this.props.squares[i]}
+        onClick={() => this.props.onClick(i)}
       />
     );
   }
 
   render() {
-    const winner = calculateWinner(this.state.squares); //傳入 9個OXOX的 Array
-    let status;
-    if (winner) {
-      status = "Winner: " + winner; //終止遊戲的？不，還是可以繼續按，只是當下句子的顯示，變成這一句話。
-    } else {
-      status = "Next player: " + (this.state.xIsNext ? "X" : "O"); //原本的
-    }
+    // const winner = calculateWinner(this.state.squares);
+    // let status;
+    // if (winner) {
+    //   status = "Winner: " + winner;
+    // } else {
+    //   status = "Next player: " + (this.state.xIsNext ? "X" : "O");
+    // }
+    //上面都移走到Game
 
     return (
       <div>
-        <div className="status">{status}</div>
+        {/* <div className="status">{status}</div> */}
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
@@ -69,14 +77,73 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
-  render() {
+
+  //由Broad放到Game來
+  constructor(props) {
+    super(props);
+    this.state = {
+      history: [
+        {
+          squares: Array(9).fill(null), //初始的記錄。還沒有第一步
+        },
+      ],
+      xIsNext: true, 
+    };
+  }
+
+  //移至並修改
+  handleClick(i) {
+    const history = this.state.history;
+    const current = history[history.length - 1]; //最新的那個
+    const squares = current.squares.slice(); //複製它
+    //const squares = this.state.squares.slice(); //<--舊的，現在不單單只有一個
+
+    //做驗証(確保這一格不會已經佔有了，或前次已經有勝出者)
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    }
+    //填新的
+    squares[i] = this.state.xIsNext ? "X" : "O";
+    //記入設定
+    this.setState({
+      // squares: squares, //原本
+      history: history.concat([
+        {
+          squares: squares,
+        },
+      ]),
+      //Unlike the array push() method you might be more familiar with,
+      //the concat() method doesn’t mutate the original array, so we prefer it.
+      
+      xIsNext: !this.state.xIsNext,//輪到下一個Player
+    });
+  }
+
+  render() {  //記得，是 click 發生後的 render
+
+    //因為都改到這裡來處理狀態的資料︰
+    const history = this.state.history;
+    const current = history[history.length - 1];
+    const winner = calculateWinner(current.squares);
+    let status;
+    if (winner) {
+      status = "Winner: " + winner;
+    } else {
+      status = "Next player: " + (this.state.xIsNext ? "X" : "O");
+    }
+
     return (
       <div className="game">
         <div className="game-board">
-          <Board />
+          {/* 改為傳值給Borad */}
+          {/* <Board /> */}
+          <Board
+            squares={current.squares}
+            onClick={(i) => this.handleClick(i)}
+          />
         </div>
         <div className="game-info">
-          <div>{/* status */}</div>
+          <div>{status}</div>
           <ol>{/* TODO */}</ol>
         </div>
       </div>
@@ -86,24 +153,41 @@ class Game extends React.Component {
 
 function calculateWinner(squares) {
   const lines = [
-    [0, 1, 2],//橫
+    [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
-    [0, 3, 6],//直
+    [0, 3, 6],
     [1, 4, 7],
     [2, 5, 8],
-    [0, 4, 8],//斜
+    [0, 4, 8],
     [2, 4, 6],
   ];
   for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i]; // a b c 成為這一個迴圈裡，勝出的可能性。
+    const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      //傳入的 9 個 OOXX 值 Array，以 abc 作為 index， 如果它們三者都 = O 或 = X
-      return squares[a]; // 則回傳這個 O 或 X ，表示這方勝出。
+      return squares[a];
     }
-    //為什麼要先判斷 squares[a] 是不是 null 值？Null值不可以作為比較的主動方？
   }
   return null;
 }
 
 export default Game;
+
+//#region Step 1 : 我們要記這樣的一個 history。因為 Game 會用得到，所以放在 Game
+// history = [
+//   // Before first move
+//   {
+//     squares: [null, null, null, null, null, null, null, null, null],
+//   },
+//   // After first move
+//   {
+//     squares: [null, null, null, null, "X", null, null, null, null],
+//   },
+//   // After second move
+//   {
+//     squares: [null, null, null, null, "X", null, null, null, "O"],
+//   },
+//   // ...
+// ];
+//#endregion
+

@@ -11,6 +11,8 @@ import Game5 from "./App/Game/Square_Board_Game5";
 import Game6 from "./App/Game/Square_Board_Game6";
 import Game7 from "./App/Game/Square_Board_Game7";
 import Game8 from "./App/Game/Square_Board_Game8";
+import Game9 from "./App/Game/Square_Board_Game9";
+import Game10 from "./App/Game/Square_Board_Game10";
 
 import Hook_useState from "./App/HookvsClass/Hooks_useState";
 import Class_LikeState from "./App/HookvsClass/Class_likeState";
@@ -26,12 +28,12 @@ import ExUseContext from "./App/Context/ExUseContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 //https://reactjs.org/tutorial/tutorial.html
-// 做一個 OOXX 井字的遊戲
+// 做一個 OOXX 井字的遊戲 tic-tac-toe game
 //root.render(<ShoppingList name="Mark" />); //簡單的 props傳值
 //root.render(<Game0 />);
 //root.render(<Game1 />); // 簡單的 props傳值
-//root.render(<Game2 />);// 加入 onclick //按下的都log
-//root.render(<Game3 />);// setState + onclick //按下的都 X
+//root.render(<Game2 />); // 加入 onclick //按下的都log
+//root.render(<Game3 />); // setState + onclick //按下的都 X
 // you inspect a React component tree with your browser’s developer tools.
 //#region 摘要
 
@@ -46,16 +48,28 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 //When the Board’s state changes, the Square components re-render automatically.
 
 //#endregion
-//root.render(<Game4 />);// 現在還都只是 X
+//root.render(<Game4 />); // 現在還都只是 X
 //We’ll now change the Square to be a function component !! <--Yeah 重點！
 //root.render(<Game5 />); // 小部份化作 function Component
 //root.render(<Game6 />); // 有XO輪流
-root.render(<Game7 />); // 顯示Winner和終止遊戲。
-//root.render(<Game8 />);
+//root.render(<Game7 />); // 顯示Winner和終止遊戲。
+//root.render(<Game8 />); // 紀錄之前的步數，將Broad的記憶交給Game。
+//root.render(<Game9 />);  // 顯示歷史Showing the Past Moves
+root.render(<Game10 />); // 跳回歷史，還可以不斷重寫！
 
-//做到這裡︰
-//https://reactjs.org/tutorial/tutorial.html
-//Adding Time Travel
+//好吧，我有點明白React的設計邏輯了。
+
+//官方建議的升級版玩法︰
+//1. Display the location for each move in the format (col, row) in the move history list.
+//2. Bold the currently selected item in the move list.
+//3. Rewrite Board to use two loops to make the squares instead of hardcoding them.
+//4. Add a toggle button that lets you sort the moves in either ascending or descending order.
+//5. When someone wins, highlight the three squares that caused the win.
+//6. When no one wins, display a message about the result being a draw.
+
+//嗯…看起來很好玩…有空寫寫…
+
+
 
 
 
