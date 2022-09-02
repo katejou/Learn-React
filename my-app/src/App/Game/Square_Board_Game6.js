@@ -1,18 +1,44 @@
 import React from "react";
 
-class Square extends React.Component {
-  render() {
-    return <button className="square">{/* TODO */}</button>;
-  }
+function Square(props) {
+  return (
+    <button className="square" onClick={props.onClick}>
+      {props.value}
+    </button>
+  );
 }
 
 class Board extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(null),
+      xIsNext: true, //<--
+    };
+  }
+
+  handleClick(i) {
+    const squares = this.state.squares.slice(); 
+    //squares[i] = "X"; 
+    squares[i] = this.state.xIsNext ? "X" : "O"; //<-- 1
+    this.setState({
+      squares: squares,
+      xIsNext: !this.state.xIsNext, //<-- 下一個
+    }); 
+  }
+
   renderSquare(i) {
-    return <Square />;
+    return (
+      <Square
+        value={this.state.squares[i]} //<-- 2
+        onClick={() => this.handleClick(i)}
+      />
+    );
   }
 
   render() {
-    const status = "Next player: X";
+    const status = "Next player: " + (this.state.xIsNext ? 'X' : 'O'); //<--(在render之中，也可以設個變數。)
 
     return (
       <div>
@@ -53,5 +79,4 @@ class Game extends React.Component {
   }
 }
 
-//export { Square, Board, Game };
 export default Game;

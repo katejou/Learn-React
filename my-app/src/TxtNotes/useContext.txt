@@ -1,0 +1,202 @@
+見 Hook_Context.js
+
+//使用︰const value = useContext(MyContext);
+
+接收一個 context object（React.createContext 的回傳值）並回傳該 context 目前的值。
+
+//建立︰const ThemeContext = React.createContext(themes.light);
+
+Context 目前的值是取決於由上層 component 距離最近的 <MyContext.Provider> 的 value prop。
+
+    ...
+    <ThemeContext.Provider value={themes.dark}>
+      <Toolbar />
+    </ThemeContext.Provider>
+    ...
+    Toolbar(props){}
+
+當 component 上層最近的 <MyContext.Provider> 更新時，       |__________重點
+該 hook 會觸發重新 render,                                  |
+
+並使用最新傳遞到 MyContext 的 context value 
+傳送到 MyContext provider。
+
+即便 ancestor 使用 React.memo 或 shouldComponentUpdate，    |   ?????
+重新 render 仍然從使用 useContext 的 component 本身開始。
+
+
+------------------------------------------------------------------------------------------------------------
+不要忘記 useContext 的參數必需為 context object 自己：
+
+正確: useContext(MyContext)
+錯誤: useContext(MyContext.Consumer)
+錯誤: useContext(MyContext.Provider)
+
+呼叫 useContext 的 component 總是會在 context 值更新時重新 render。
+如果重新 render component 的操作很昂貴，你可以透過 memoization 來最佳化?????????
+
+
+https://zh-hant.reactjs.org/docs/context.html
+
+需要useContext的原因︰ (一直在重覆傳 user 和 avatarSize )
+------------------------------------------------------------------------------------------------------------
+<Page user={user} avatarSize={avatarSize} />
+// ... which renders ...
+        <PageLayout user={user} avatarSize={avatarSize} />
+        // ... which renders ...
+                <NavigationBar user={user} avatarSize={avatarSize} />
+                // ... which renders ...
+                      <Link href={user.permalink}>
+                            <Avatar user={user} size={avatarSize} />
+                      </Link>
+------------------------------------------------------------------------------------------------------------
+Page-> PageLayout-> NavigationBar-> Link-> Avatar
+
+It’s also annoying that whenever the Avatar component needs more props from the top, 
+you have to add them at all the intermediate levels too.
+------------------------------------------------------------------------------------------------------------
+
+One way to solve this issue without context is to pass down the Avatar component itself
+ so that the intermediate components don’t need to know about the user or avatarSize props
+------------------------------------------------------------------------------------------------------------
+
+function Page(props) {
+  const user = props.user;
+  const userLink = (
+    <Link href={user.permalink}>
+      <Avatar user={user} size={props.avatarSize} />
+    </Link>
+  );
+  return <PageLayout userLink={userLink} />;    
+}
+------------------------------------------------------------------------------------------------------------
+打包 'Link & Avatar' as a attribut, pass to 'PageLayout', pass to 'NavigationBar'
+------------------------------------------------------------------------------------------------------------
+// Now, we have:
+  <Page user={user} avatarSize={avatarSize} />
+  // ... which renders ...
+        <PageLayout userLink={...} />
+        // ... which renders ...
+                <NavigationBar userLink={...} />
+                // ... which renders ...
+                        {props.userLink}
+------------------------------------------------------------------------------------------------------------
+Page-> PageLayout-> NavigationBar
+
+------------------------------------------------------------------------------------------------------------
+再深一層的打包︰
+function Page(props) {
+  const user = props.user;
+  const content = <Feed user={user} />;
+
+  const topBar = (
+    <NavigationBar>
+      <Link href={user.permalink}>
+        <Avatar user={user} size={props.avatarSize} />
+      </Link>
+    </NavigationBar>
+  );
+
+  return (
+    <PageLayout
+      topBar={topBar}
+      content={content}
+    />
+  );
+}
+------------------------------------------------------------------------------------------------------------
+Page -> PageLayout
+Page 打包了 NavigationBar -> Link -> Avatar
+
+------------------------------------------------------------------------------------------------------------
+
+This pattern is sufficient for many cases 
+when you need to decouple a child from its immediate parents. 
+
+You can take it even further with render props 
+if the child needs to communicate with the parent 
+before rendering.
+
+However, sometimes the same data needs to be accessible by many components in the tree, 
+and at different nesting levels. 
+
+Context lets you “broadcast” such data, and changes to it, to all components below. 
+
+廣播！這個值！
+
+Common examples where using context might be simpler than the alternatives 
+include managing the current locale, theme, or a data cache.
+
+--------------------------------------------------------------------------------------------------------
+
+React.createContext
+
+const MyContext = React.createContext(defaultValue);
+
+When React renders a component that subscribes to this Context object 
+it will read the current context value from the 
+"closest matching Provider above" it in the tree.
+
+'見 Hook_Context.js
+
+The "defaultValue" argument is only used 
+when a component does not have a matching Provider 
+above it in the tree
+
+This default value can be helpful for testing components in isolation 
+without wrapping them.
+
+Note: passing undefined as a Provider value
+does not cause consuming components to use defaultValue.
+
+'如果讓 Provider 廣播 undefined，
+'Comsumer 也會照收，而不是用它自己的 defaultValue
+
+--------------------------------------------------------------------------------------------------------
+
+Context.Provider
+
+<MyContext.Provider value={/* some value */}>
+
+Every Context object comes with a Provider React component 
+that allows 'consuming components to subscribe' to context changes.
+
+The Provider component accepts a value prop 
+to be passed to consuming components 
+that are descendants of this Provider. 
+
+One Provider can be connected to many consumers. 
+
+Providers can be nested to 'override' values deeper(outer?) within the tree.
+
+All consumers that are descendants of a Provider 
+will re-render whenever the Provider’s value prop changes. 
+
+The propagation(傳播) from Provider to its descendant consumers 
+(including .contextType???* and useContext) is not subject to the shouldComponentUpdate method, ?????
+
+so the consumer is updated even when an ancestor component skips an update. <---重點這句明白就夠了。
+
+Changes are determined by comparing the new and old values 
+using the same algorithm as Object.is.
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is#description
+
+Like : Object.is(value1, value2);
+
+.contextType???*「後知是Class的東東，我就不看了…」
+
+動態改conext實作見︰index.js
+
+--------------------------------------------------------------------------------------------------------
+
+Consuming Multiple Contexts
+
+To keep context re-rendering fast, 
+React needs to make each context consumer a separate node in the tree.
+
+
+
+
+
+

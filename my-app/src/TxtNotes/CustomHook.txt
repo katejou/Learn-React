@@ -1,0 +1,42 @@
+在這一頁前面，我們提到 FriendStatus component 呼叫 useState 與 useEffect Hook 來訂閱朋友的線上狀態。
+假如我們也想要在另一個 component 重複使用這個訂閱邏輯。
+首先，我們抽離這個邏輯到客製化 Hook useFriendState 之中：
+
+見︰Cus_Hook.js
+
+他接收 friendID 做為 argument 且回傳我們的朋友是否在線上
+現在我們在兩個 component 中都可以使用：
+
+--------------------------------------------------------------
+//回文字
+function FriendStatus(props) {
+  const isOnline = useFriendStatus(props.friend.id);
+
+  if (isOnline === null) {
+    return 'Loading...';
+  }
+  return isOnline ? 'Online' : 'Offline';
+}
+--------------------------------------------------------------
+//回DOM
+function FriendListItem(props) {
+  const isOnline = useFriendStatus(props.friend.id);
+
+  return (
+    <li style={{ color: isOnline ? 'green' : 'black' }}>
+      {props.friend.name}
+    </li>
+  );
+}
+--------------------------------------------------------------
+
+這兩個 component 的 state 是完全獨立的。(裡面的值所存的位置不一樣)
+實際上，每一次呼叫一個 Hook 都有一個完全獨立且隔離的 state 
+—— 所以你甚至可以在一個 component 使用同一個客製化 Hook 兩次。
+
+客製化 Hook 比較像慣例而不是功能，
+如果一個 function 的名字是「use」開頭且他呼叫其他 Hook，我們將他稱之為客製化 Hook。
+
+使用 Hook 時，useSomething的命名慣例
+是我們的 linter plugin 如何能夠在程式碼中找到 bug 的原因。
+
