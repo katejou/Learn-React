@@ -69,10 +69,6 @@ root.render(<Game10 />); // 跳回歷史，還可以不斷重寫！
 
 //嗯…看起來很好玩…有空寫寫…
 
-
-
-
-
 //實作Hook https://zh-hant.reactjs.org/docs/hooks-overview.html
 
 //root.render(<Hook_useState />); //<--比較省，新，官推
