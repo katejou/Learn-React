@@ -67,9 +67,12 @@ root.render(<Game10 />); // 跳回歷史，還可以不斷重寫！
 //5. When someone wins, highlight the three squares that caused the win.
 //6. When no one wins, display a message about the result being a draw.
 
-//嗯…看起來很好玩…有空寫寫…
+// 嗯…看起來很好玩…有空寫寫…(但週末才做吧，現在還是搞useContext比較重要)
 
-//實作Hook https://zh-hant.reactjs.org/docs/hooks-overview.html
+// https://reactjs.org/docs/hooks-intro.html
+// 官方建議我們直接跳︰
+// https://zh-hant.reactjs.org/docs/hooks-overview.html
+// 實作Hook
 
 //root.render(<Hook_useState />); //<--比較省，新，官推
 //root.render(<Class_LikeState />);
@@ -95,7 +98,14 @@ root.render(<Game10 />); // 跳回歷史，還可以不斷重寫！
 //https://zh-hant.reactjs.org/docs/hooks-overview.html#building-your-own-hooks
 //https://zh-hant.reactjs.org/docs/hooks-rules.html
 
+//https://reactjs.org/docs/hooks-faq.html
 
+//幼幼班︰
+//https://reactfordesigners.com/
+//免/付費班︰
+//https://reactjs.org/community/courses.html
+//JavaScript的溫習︰
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript
 
 
 
