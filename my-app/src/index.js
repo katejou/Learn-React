@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-pascal-case */
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import Game0 from "./App/Game/Square_Board_Game0";
@@ -13,6 +13,7 @@ import Game7 from "./App/Game/Square_Board_Game7";
 import Game8 from "./App/Game/Square_Board_Game8";
 import Game9 from "./App/Game/Square_Board_Game9";
 import Game10 from "./App/Game/Square_Board_Game10";
+import Game11 from "./App/Game/Square_Board_Game11";
 
 import Hook_useState from "./App/HookvsClass/Hooks_useState";
 import Class_LikeState from "./App/HookvsClass/Class_likeState";
@@ -55,12 +56,13 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 //root.render(<Game7 />); // 顯示Winner和終止遊戲。
 //root.render(<Game8 />); // 紀錄之前的步數，將Broad的記憶交給Game。
 //root.render(<Game9 />);  // 顯示歷史Showing the Past Moves
-root.render(<Game10 />); // 跳回歷史，還可以不斷重寫！
+//root.render(<Game10 />); // 跳回歷史，還可以不斷重寫！
 
 //好吧，我有點明白React的設計邏輯了。
 
 //官方建議的升級版玩法︰
 //1. Display the location for each move in the format (col, row) in the move history list.
+root.render(<Game11 />);
 //2. Bold the currently selected item in the move list.
 //3. Rewrite Board to use two loops to make the squares instead of hardcoding them.
 //4. Add a toggle button that lets you sort the moves in either ascending or descending order.
