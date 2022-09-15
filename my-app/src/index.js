@@ -14,6 +14,8 @@ import Game8 from "./App/Game/Square_Board_Game8";
 import Game9 from "./App/Game/Square_Board_Game9";
 import Game10 from "./App/Game/Square_Board_Game10";
 import Game11 from "./App/Game/Square_Board_Game11";
+import Game12 from "./App/Game/Square_Board_Game12";
+import Game13 from "./App/Game/Square_Board_Game13";
 
 import Hook_useState from "./App/HookvsClass/Hooks_useState";
 import Class_LikeState from "./App/HookvsClass/Class_likeState";
@@ -62,9 +64,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 //官方建議的升級版玩法︰
 //1. Display the location for each move in the format (col, row) in the move history list.
-root.render(<Game11 />);
+//root.render(<Game11 />);
 //2. Bold the currently selected item in the move list.
+//root.render(<Game12 />);
 //3. Rewrite Board to use two loops to make the squares instead of hardcoding them.
+//root.render(<Game13 />);
 //4. Add a toggle button that lets you sort the moves in either ascending or descending order.
 //5. When someone wins, highlight the three squares that caused the win.
 //6. When no one wins, display a message about the result being a draw.
