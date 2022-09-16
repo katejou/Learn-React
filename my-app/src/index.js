@@ -32,6 +32,8 @@ import DynamicUseContext from "./App/Context/DynamicUseContext";
 import ExUseContext from "./App/Context/ExUseContext";
 // ========================================
 
+import App from "./App/CatAndMice/App";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 //https://reactjs.org/tutorial/tutorial.html
 // 做一個 OOXX 井字的遊戲 tic-tac-toe game
@@ -77,7 +79,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 //5. When someone wins, highlight the three squares that caused the win.
 //root.render(<Game15 />);
 //6. When no one wins, display a message about the result being a draw.
-root.render(<Game16 />);
+//root.render(<Game16 />);
 
 // https://reactjs.org/docs/hooks-intro.html
 // 官方建議我們直接跳︰
@@ -93,18 +95,32 @@ root.render(<Game16 />);
 //root.render(<HookUseContext />);
 //root.render(<DynamicUseContext />);//這個是混合 class 和 function的…
 
+//之後很多筆記都在TxtNotes之中，官網不寫完整的範例，只寫片段來對比。
 //我覺得 useContext 的地方，官網寫得太繞，給的例子也很…不到位。
-//所以我找外援︰https://ithelp.ithome.com.tw/articles/10241780
-//root.render(<ExUseContext />);//太簡單，不是動態的
-//
-//https://mrcodingroom.freesite.host/reacthook-usecontext-%E6%95%99%E5%AD%B8-tutorial/
+//所以我找
 
+//外援_1︰https://ithelp.ithome.com.tw/articles/10241780
+//root.render(<ExUseContext />);
+//太簡單，不是動態的
+
+//外援_2:
+//https://mrcodingroom.freesite.host/reacthook-usecontext-%E6%95%99%E5%AD%B8-tutorial/
+root.render(<App />);
+//這個例子，只是很極端地分開這三個物件︰Context Provider Content
+//是 Provider 將 Context 和 Content 「縫」起來！
+//想想，同一個Provider(資料來源)，可以套用不同的Content(表現格式)
+//我參考DynamicUseContext，把它改編一下。
+//好了，它現在也是一個動態(一點點)的例子了！
+//外援_3︰
 //https://penueling.com/%E7%B7%9A%E4%B8%8A%E5%AD%B8%E7%BF%92/react-%E4%BD%BF%E7%94%A8-usecontext-%E5%AF%A6%E7%8F%BE%E8%B7%A8%E7%B5%84%E4%BB%B6%E5%AD%98%E5%8F%96%E7%8B%80%E6%85%8B/
 
 
-//之後很多筆記都在TxtNotes之中，官網不寫完整的範例，只寫片段來對比。
+//https://www.freecodecamp.org/news/react-context-for-beginners/
 
-//看到這裡︰
+
+
+//看到這裡︰???
+
 //https://zh-hant.reactjs.org/docs/hooks-overview.html#building-your-own-hooks
 //https://zh-hant.reactjs.org/docs/hooks-rules.html
 
