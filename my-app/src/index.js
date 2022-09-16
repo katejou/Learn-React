@@ -17,6 +17,7 @@ import Game11 from "./App/Game/Square_Board_Game11";
 import Game12 from "./App/Game/Square_Board_Game12";
 import Game13 from "./App/Game/Square_Board_Game13";
 import Game14 from "./App/Game/Square_Board_Game14";
+import Game15 from "./App/Game/Square_Board_Game15";
 
 import Hook_useState from "./App/HookvsClass/Hooks_useState";
 import Class_LikeState from "./App/HookvsClass/Class_likeState";
@@ -71,9 +72,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 //3. Rewrite Board to use two loops to make the squares instead of hardcoding them.
 //root.render(<Game13 />);
 //4. Add a toggle button that lets you sort the moves in either ascending or descending order.
-root.render(<Game14 />);
+//root.render(<Game14 />);
 //5. When someone wins, highlight the three squares that caused the win.
-
+root.render(<Game15 />);
 //6. When no one wins, display a message about the result being a draw.
 
 // 嗯…看起來很好玩…有空寫寫…(但週末才做吧，現在還是搞useContext比較重要)
