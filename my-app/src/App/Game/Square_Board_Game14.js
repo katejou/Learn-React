@@ -21,38 +21,24 @@ class Board extends React.Component {
 
   render() {
     var counter = 0;
-    return (
-      //文字
-      <div>
-        {
-          //程式
-          [...Array(3).keys()].map((i) => (
-            //文字
+    return (<div>{[...Array(3).keys()].map((i) => (
             <div className="board-row">
-              {
-                //程式
-                [...Array(3).keys()].map((j) => this.renderSquare(counter++))
-              }
-
-              {
-                /* 內層的Loop要多加一個()再開始，不然會被當文字！
-                {element}是非文字，要輸出的程式，
-                {element{text}} 是從程式，改回為輸出文字
-                {element{text(element)}}是從程式，改回為輸出文字，再改回輸出程式
-                */
-              }
-              
+              {[...Array(3).keys()].map((j) => this.renderSquare(counter++))}
             </div>
-          ))
-        }
-      </div>
-    );
+    ))}</div>);
   }
 }
 
 class Game extends React.Component {
   constructor(props) {
     super(props);
+
+    //這個要放在this.state的(前)上面，有差! (參考DynamicUseContext)
+    this.toggleOrder = () => {
+      this.setState((state) => ({
+        AseOrder: state.AseOrder === true ? false : true,
+      }));
+    };
 
     this.state = {
       history: [
@@ -62,6 +48,8 @@ class Game extends React.Component {
       ],
       stepNumber: 0,
       xIsNext: true,
+      AseOrder: true,
+      toggleOrder: this.toggleOrder,
     };
   }
 
@@ -76,9 +64,7 @@ class Game extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
-
     if (calculateWinner(squares) || squares[i]) {
-      //verify
       return;
     }
     squares[i] = this.state.xIsNext ? "X" : "O";
@@ -94,13 +80,14 @@ class Game extends React.Component {
     });
   }
 
+  reverseOrder = () => { this.AseOrderthis = !this.AseOrderthis  }
+
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
-    const moves = history.map((step, move, hisAry) => {
-      //get the location of this step
+    var moves = history.map((step, move, hisAry) => {
       var desc = "";
       if (move === 0) {
         desc = "Go to game start";
@@ -135,6 +122,10 @@ class Game extends React.Component {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
 
+    if (!this.state.AseOrder) {
+      moves = moves.reverse();
+    }
+
     return (
       <div className="game">
         <div className="game-board">
@@ -146,6 +137,11 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
+          <button onClick={this.state.toggleOrder}>
+            {this.state.AseOrder
+              ? "Change listing order to DESC"
+              : "Change listing order to ASE"}
+          </button>
           <ol>{moves}</ol>
         </div>
       </div>
