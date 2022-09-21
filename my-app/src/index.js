@@ -36,7 +36,23 @@ import App_FCC from "./App/FreeCodeCamp/SimplestSample";
 import App_FCC_2 from "./App/FreeCodeCamp/SimplestSample_Compare";
 import { Clock, DigitalClock, Hourglass } from "./App/CustomHook/ManyClock";
 import CLogger from "./App/CustomHook/CLogger";
+import Home from "./App/CustomHook/Home";
+import Home_2 from "./App/CustomHook/Home_2";
 
+
+import FavoriteColor from "./App/w3school/STA_1";
+import Car from "./App/w3school/STA_2";
+import Timer from "./App/w3school/EFF_Timer";
+import Type_2_Timer from "./App/w3school/EFF_Type_2_Timer";
+import Type_3_Counter from "./App/w3school/EFF_Type_3";
+import Effect_Cleanup_Timer from "./App/w3school/EffectCleanUp";
+import Component1 from "./App/w3school/CO_Drill";
+import Component1_1 from "./App/w3school/CO_Drill_Not";
+import Why_Ref from "./App/w3school/REF_Why";
+import REF_Focus from "./App/w3school/REF_Focus";
+import REF_PRE from "./App/w3school/REF_PRE";
+import Todos from "./App/w3school/RED";
+import RED_2 from "./App/w3school/RED_2";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 //https://reactjs.org/tutorial/tutorial.html
@@ -68,6 +84,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 //root.render(<Game8 />); // 紀錄之前的步數，將Broad的記憶交給Game。
 //root.render(<Game9 />);  // 顯示歷史Showing the Past Moves
 //root.render(<Game10 />); // 跳回歷史，還可以不斷重寫！
+
 
 //好吧，我有點明白React的設計邏輯了。
 
@@ -138,7 +155,89 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 //外援二︰
 //https://www.w3schools.com/react/react_customhooks.asp
-//
+//root.render(<Home />); //step1
+//root.render(<Home_2 />);//step2 (take out to be useFetch) (combine useEffect 和 useState)
+
+//都經過w3schools，就學好學滿︰
+
+// ----- useState -----
+
+//root.render(<FavoriteColor />);
+//root.render(<Car />); //State存入Array，在修改時，維持其他的不變，單單改其中一個值！
+
+// ----- useEffect -----
+
+//root.render(<Timer />); //setTimeout 是延遲執行
+//useEffect runs on every render.
+//That means that when the count changes, a render happens,
+//which then triggers another effect.
+
+//////重要！官網都沒說得那麼清楚︰///////
+//第一種:
+// useEffect(() => {
+//   //Runs on every render!!!!
+// });
+//第二種︰
+// useEffect(() => {
+//   //Runs only on the first render!!!!
+// }, []);
+//第三種︰
+// useEffect(() => {
+//   //Runs on the first render!!!!
+//   //And any time any dependency value changes!!!!
+// }, [prop, state]);
+
+//root.render(<Type_2_Timer />);//只有0,1
+//root.render(<Type_3_Counter />);
+//這個例子不好，是用於清除Effect的︰
+//root.render(<Effect_Cleanup_Timer />);
+
+// ----- useContext -----
+
+//prop drilling 的例子！(舉出沒有useContext有多慘！)
+//root.render(<Component1 />);
+//root.render(<Component1_1 />);
+
+// ----- useRef -----
+
+//1
+//The useRef Hook allows you to persist values between renders.
+// For Example :
+// If we tried to count how many times our application renders using the useState Hook,
+// we would be caught in an infinite loop since this Hook itself causes a re - render.
+//root.render(<Why_Ref />);
+
+//2
+//In React, we can add a ref attribute
+//to an element to access it directly in the DOM.
+//root.render(<REF_Focus />);
+
+//3
+//The useRef Hook can also be used to keep track of previous state values.
+//This is because we are able to persist useRef values between renders.
+//root.render(<REF_PRE/>);
+
+
+// ----- useReducer -----
+
+//root.render(<Todos />);
+//做完了，但還是不懂，於是找外外援︰
+//https://ithelp.ithome.com.tw/articles/10268258
+//還是看不太懂(@.@)
+//root.render(<RED_2 />);
+//但是這個例子有比較清楚，可以當作是進階版的useState。
+//我的理解是設同一個State，但設定多個修改的method！
+
+
+// ----- useCallback -----
+
+//Think of memoization as caching a value so that it does not need to be recalculated.
+//https://www.w3schools.com/react/react_usecallback.asp
+
+
+
+// ----- useMemo ----- 
+
 
 // 超多實用例子！︰
 // https://usehooks.com/
