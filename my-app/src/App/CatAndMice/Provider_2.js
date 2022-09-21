@@ -3,6 +3,8 @@ import React from "react";
 import Content from "./Content_3";
 import { CatStateContext } from "./Context_1";
 
+//Provider = 金主 + 媒人
+
 class ProviderContext extends React.Component {
 
   constructor(props) {

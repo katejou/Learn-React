@@ -5,7 +5,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "湯姆貓表",
+      name: "湯姆貓表", //最外層的傳值
     };
   }
 

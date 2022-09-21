@@ -30,9 +30,13 @@ import Class_likeEffect from "./App/HookvsClass/Class_likeState";
 import HookUseContext from "./App/Context/Hook_Context";
 import DynamicUseContext from "./App/Context/DynamicUseContext";
 import ExUseContext from "./App/Context/ExUseContext";
-// ========================================
 
 import App from "./App/CatAndMice/App";
+import App_FCC from "./App/FreeCodeCamp/SimplestSample";
+import App_FCC_2 from "./App/FreeCodeCamp/SimplestSample_Compare";
+import { Clock, DigitalClock, Hourglass } from "./App/CustomHook/ManyClock";
+import CLogger from "./App/CustomHook/CLogger";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 //https://reactjs.org/tutorial/tutorial.html
@@ -105,24 +109,43 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 //外援_2:
 //https://mrcodingroom.freesite.host/reacthook-usecontext-%E6%95%99%E5%AD%B8-tutorial/
-root.render(<App />);
+//root.render(<App />);
 //這個例子，只是很極端地分開這三個物件︰Context Provider Content
 //是 Provider 將 Context 和 Content 「縫」起來！
 //想想，同一個Provider(資料來源)，可以套用不同的Content(表現格式)
 //我參考DynamicUseContext，把它改編一下。
 //好了，它現在也是一個動態(一點點)的例子了！
+
 //外援_3︰
-//https://penueling.com/%E7%B7%9A%E4%B8%8A%E5%AD%B8%E7%BF%92/react-%E4%BD%BF%E7%94%A8-usecontext-%E5%AF%A6%E7%8F%BE%E8%B7%A8%E7%B5%84%E4%BB%B6%E5%AD%98%E5%8F%96%E7%8B%80%E6%85%8B/
-
-
 //https://www.freecodecamp.org/news/react-context-for-beginners/
+//root.render(<App_FCC />);
+//root.render(<App_FCC_2 />); //這兩個極簡單但有力的例子，我們看清楚了Consumer的兩種用法。
 
-
-
-//看到這裡︰???
-
+//進入Custom Hook:
 //https://zh-hant.reactjs.org/docs/hooks-overview.html#building-your-own-hooks
+//看到這裡---
 //https://zh-hant.reactjs.org/docs/hooks-rules.html
+//https://zh-hant.reactjs.org/docs/hooks-custom.html
+//官方的例子，總涉及了個API，
+//所以我找了個超簡單的例子(外援一)︰
+//https://medium.com/hannah-lin/react-hook-%E7%AD%86%E8%A8%98-custom-hooks-%E4%B9%8B%E6%89%93%E9%80%A0%E8%87%AA%E5%B7%B1%E7%9A%84-hook-b046f6778f33
+//root.render(<Clock />);
+//root.render(<DigitalClock />);
+//root.render(<Hourglass />);
+//以上三個都是用同一個Custom出來的Hook
+//useEffect 和 Custom Hook 的組合︰
+//root.render(<CLogger />);
+
+//外援二︰
+//https://www.w3schools.com/react/react_customhooks.asp
+//
+
+// 超多實用例子！︰
+// https://usehooks.com/
+
+
+//其他Hook︰
+//https://medium.com/hannah-lin/react-hook-%E7%AD%86%E8%A8%98-memorized-hook-usememo-usecallback-e08a5e1bc9a2
 
 //https://reactjs.org/docs/hooks-faq.html
 
