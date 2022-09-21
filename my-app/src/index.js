@@ -53,6 +53,9 @@ import REF_Focus from "./App/w3school/REF_Focus";
 import REF_PRE from "./App/w3school/REF_PRE";
 import Todos from "./App/w3school/RED";
 import RED_2 from "./App/w3school/RED_2";
+import CAL_NO from "./App/w3school/CAL_NoT";
+import CAL_USE from "./App/w3school/CAL_USE";
+import CAL_USE_M2 from "./App/w3school/CAL_USE_M2";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 //https://reactjs.org/tutorial/tutorial.html
@@ -229,14 +232,29 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 //我的理解是設同一個State，但設定多個修改的method！
 
 
-// ----- useCallback -----
+// ----- useCallback ----- https://www.w3schools.com/react/react_usecallback.asp
 
 //Think of memoization as caching a value so that it does not need to be recalculated.
-//https://www.w3schools.com/react/react_usecallback.asp
+//The useCallback Hook only runs when one of its dependencies update.
+
+//root.render(<CAL_NO />); //不使用Callback時，詳見內文。
+//root.render(<CAL_USE />); //還是一樣？不懂，試加上memo來試，雖然還不知道原因。
+root.render(<CAL_USE_M2 />); //終於成功了！互不干擾！
+
+
+//The useCallback and useMemo Hooks are similar.
+//The main difference is that useMemo returns a memoized value and
+//useCallback returns a memoized function.
+
+//外外援︰
+//https://medium.com/ichef/%E4%BB%80%E9%BA%BC%E6%99%82%E5%80%99%E8%A9%B2%E4%BD%BF%E7%94%A8-usememo-%E8%B7%9F-usecallback-a3c1cd0eb520
+//https://ithelp.ithome.com.tw/m/articles/10270317
+
+// ----- useMemo -----
 
 
 
-// ----- useMemo ----- 
+
 
 
 // 超多實用例子！︰
