@@ -9,7 +9,7 @@ const CAL_USE_M2 = () => {
   const increment = () => {
     setCount((c) => c + 1);
   };
-  const addTodo = useCallback(() => {
+  const addTodo = useCallback(() => {    //<--這個是重點！
     setTodos((t) => [...t, "New Todo"]);
   }, [todos]);
 

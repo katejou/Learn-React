@@ -15,6 +15,9 @@ const Todos = ({ todos, addTodo }) => {
 };
 
 //export default memo(Todos);
+
+//原本是分開兩個檔案的~
+
 //const M_todos = memo(Todos)
 
 const CAL_USE = () => {
