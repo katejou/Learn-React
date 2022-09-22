@@ -11,7 +11,7 @@ const CAL_USE_M2 = () => {
   };
   const addTodo = useCallback(() => {    //<--這個是重點！
     setTodos((t) => [...t, "New Todo"]);
-  }, [todos]);
+  }, [todos]); //這個 [todos] 的參數，是有監控作用的！
 
   return (
     <>

@@ -58,6 +58,10 @@ import CAL_USE from "./App/w3school/CAL_USE";
 import CAL_USE_M2 from "./App/w3school/CAL_USE_M2";
 import MEM_NO from "./App/w3school/MEM_NO";
 import MEM_USE from "./App/w3school/MEM_USE";
+import CALL_USE2 from "./App/w3school/CALL_USE2";
+
+
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 //https://reactjs.org/tutorial/tutorial.html
@@ -93,7 +97,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 //好吧，我有點明白React的設計邏輯了。
 
-//官方建議的升級版玩法︰
+//官方建議的升級版玩法︰(這些都是我自己作的！官網上沒有答案！但是我全部挑戰成功了！)
 //1. Display the location for each move in the format (col, row) in the move history list.
 //root.render(<Game11 />);
 //2. Bold the currently selected item in the move list.
@@ -252,15 +256,105 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 // ----- useMemo -----
 
 //root.render(<MEM_NO />); //未使用前！
-root.render(<MEM_USE />); //使用之後。
+//root.render(<MEM_USE />); //使用之後。
+
+//use Memo 的例子，就沒有和 useCallback 掛勾。
+//所以CAL_USE_M1之中的 memo 是幹什麼用的，是否專用和 useCallback 配合的？
+//不得而知。
 
 
+//----- 外外援1︰
 
-
-
-//外外援︰
 //https://medium.com/ichef/%E4%BB%80%E9%BA%BC%E6%99%82%E5%80%99%E8%A9%B2%E4%BD%BF%E7%94%A8-usememo-%E8%B7%9F-usecallback-a3c1cd0eb520
+
+//useMemo → 遇到複雜耗時計算時使用
+//useCallback → 大部分不用，僅在搭配 PureComponent 等、或是提供多個 useEffect 時使用
+
+//#region ----- 解說 -----
+//如果只是簡單的計算的話，useMemo 所花費的成本可能還比較高，反而一點都沒有加速到。
+//useCallback 是 useMemo 的一種變體，用來記住一個 function instance。
+
+//useCallback 的主要目的是避免在 component 內部宣告的 function，
+//因為隨著每次 render 不斷重新被宣告跟建立，每次拿到的都是不同的 instance。
+//這樣的 function 如果被當成 prop 往下傳給其他 component時，  <<<<<<<<<<<<<<<<<<<<<<-------
+//就可能導致下面的 component 無意義地被重新 render。
+
+//但是除非你的 component 有實作比對 prop 做選擇性 render 的檢查，
+//不然就算傳了 useCallback 記下來的 function 進去也毫無意義——
+//他的 render function 還不是會被跑一次。
+
+//(我心想，這就是 memo 的作用？)
+
+//上面說的是用 React.memo 包起來的 component、
+//繼承了 React.PureComponent 的 component、或是有實作 shouldComponentUpdate() 方法的 component。
+//這些才會在每次 render 前去檢查 props 跟 state，來決定要不要跑自己的 render。
+
+//(我心想，所以 useCallback 和 memo 是綁在一起的了！)
+
+//這不代表所以我們每個 component 都應該改用上述的作法來「加速」
+//如同前面提到的，為了「加速」你會需要花額外的資源跟計算來做檢查、不見得有那麼划算、
+//而且可能會讓你的 code 變複雜。這些都要看你的專案情況而定。
+
+//建議使用 useCallback 的時機
+//如果你的 function 因為需要用到 props 或 state
+//而必須在 component scope 裡面宣告、但又同時會被超過一個 useEffect 使用時，
+//就建議以 useCallback 包起來。
+
+//(不太懂？)
+
+// When your callback are used in multiple useEffect()
+// function SearchResults({ query }) {
+    
+//     const getFetchUrl = useCallback(() => {
+//     return 'https://hn.algolia.com/api/v1/search?query=' + query;
+//     }, [query]);
+
+//     useEffect(() => {
+//     const url = getFetchUrl('react');  //<--用一次(但是這個方法沒有接收參數呀？query 是從 props 來的？)
+//     // ... Fetch data and do something ...
+//     }, [getFetchUrl]);
+
+//     useEffect(() => {
+//     const url = getFetchUrl('redux'); //<--用兩次
+//     // ... Fetch data and do something ...
+//     }, [getFetchUrl]);
+//     // ...
+
+// }
+
+// (不懂，後方有些和正題不太關係，於是省略了……)
+
+//#endregion
+
+// 總結︰所以 useCallback 和 memo 是綁在一起的！
+
+
+//----- 外外援2︰
+
 //https://ithelp.ithome.com.tw/m/articles/10270317
+
+//useCallback: 記憶的是函式;
+//useMemo: 記憶的是函式執行後的回傳值;
+
+//useCallback 也可以彌補 React.memo 的缺點...?
+//透過 useCallback 可以記住 function 的記憶體位置，
+//就可以避免 React.memo 在比較 props 值時因為"物件型別記憶體位置不同但值相同"而重新渲染的狀況。
+
+//重點︰
+//useCallback(function): 如果沒有加上這個陣列，「每次」都會重新執行函式去產生新的函式(和沒做一樣？)
+//useCallback(function, []): 空陣列的話，回傳的函式(永遠？)不會改變
+//useCallback(function, [...someValues]): 有加上一些元素值的話，當元素值改變時會重新更新回傳的函式
+
+//語法︰
+// const memoizedCallback = useCallback(() => {
+//   doSomething(a, b);
+// }, [a, b]);
+
+//例子︰ useCallback(function, [])
+root.render(<CALL_USE2 />);
+//這個例子超級清楚的，記得開F12看 console log ....
+
+
 
 
 // 超多實用例子！︰
