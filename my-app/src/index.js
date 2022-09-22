@@ -2,6 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+
 import Game0 from "./App/Game/Square_Board_Game0";
 import Game1 from "./App/Game/Square_Board_Game1";
 import Game2 from "./App/Game/Square_Board_Game2";
@@ -39,7 +40,6 @@ import CLogger from "./App/CustomHook/CLogger";
 import Home from "./App/CustomHook/Home";
 import Home_2 from "./App/CustomHook/Home_2";
 
-
 import FavoriteColor from "./App/w3school/STA_1";
 import Car from "./App/w3school/STA_2";
 import Timer from "./App/w3school/EFF_Timer";
@@ -59,6 +59,8 @@ import CAL_USE_M2 from "./App/w3school/CAL_USE_M2";
 import MEM_NO from "./App/w3school/MEM_NO";
 import MEM_USE from "./App/w3school/MEM_USE";
 import CALL_USE2 from "./App/w3school/CALL_USE2";
+
+import U_Toggle_App from "./App/UseCHook/UseToggle_E";
 
 
 
@@ -93,7 +95,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 //root.render(<Game8 />); // 紀錄之前的步數，將Broad的記憶交給Game。
 //root.render(<Game9 />);  // 顯示歷史Showing the Past Moves
 //root.render(<Game10 />); // 跳回歷史，還可以不斷重寫！
-
 
 //好吧，我有點明白React的設計邏輯了。
 
@@ -226,7 +227,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 //This is because we are able to persist useRef values between renders.
 //root.render(<REF_PRE/>);
 
-
 // ----- useReducer -----
 
 //root.render(<Todos />);
@@ -236,7 +236,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 //root.render(<RED_2 />);
 //但是這個例子有比較清楚，可以當作是進階版的useState。
 //我的理解是設同一個State，但設定多個修改的method！
-
 
 // ----- useCallback ----- https://www.w3schools.com/react/react_usecallback.asp
 
@@ -252,7 +251,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 //The main difference is that useMemo returns a memoized value and
 //useCallback returns a memoized function.  ???
 
-
 // ----- useMemo -----
 
 //root.render(<MEM_NO />); //未使用前！
@@ -261,7 +259,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 //use Memo 的例子，就沒有和 useCallback 掛勾。
 //所以CAL_USE_M1之中的 memo 是幹什麼用的，是否專用和 useCallback 配合的？
 //不得而知。
-
 
 //----- 外外援1︰
 
@@ -304,7 +301,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 // When your callback are used in multiple useEffect()
 // function SearchResults({ query }) {
-    
+
 //     const getFetchUrl = useCallback(() => {
 //     return 'https://hn.algolia.com/api/v1/search?query=' + query;
 //     }, [query]);
@@ -328,7 +325,6 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 // 總結︰所以 useCallback 和 memo 是綁在一起的！
 
-
 //----- 外外援2︰
 
 //https://ithelp.ithome.com.tw/m/articles/10270317
@@ -351,14 +347,134 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 // }, [a, b]);
 
 //例子︰ useCallback(function, [])
-root.render(<CALL_USE2 />);
+//root.render(<CALL_USE2 />);
 //這個例子超級清楚的，記得開F12看 console log ....
 
+// 要不要做個挑戰呢?
+//https://www.w3schools.com/react/react_quiz.asp
+
+//做了之後，學到了一些眉眉角角︰
+
+//#region -- 普通變數的設定，也可以用Arrow Function(可以說它已經打破了 變數和方法 之間的界線了嗎？)
+//hello = () => "Hello World!";
+//#endregion
+
+//#region -- 取串列元素，作為變數的一個簡單辦法
+// const vehicles = ["mustang", "f-150", "expedition"];
+// const [, , suv] = vehicles;
+// (結果 suv = "expedition" ，這就是一種便利的方法！)
+//#endregion
+
+//#region -- 預先解構傳入值的辦法 --
+
+// const person = {
+//   name: "Jesse",
+//   age: 30,
+//   address: {
+//     city: "Houston",
+//     state: "Texas",
+//     country: "USA",
+//   },
+// };
+
+// displayMessage(person);
+
+// function displayMessage({ address: { state } }) {
+//   const message = "I live in " + state + ".";
+// }
+
+//#endregion
+
+//#region -- 以...簡單地結合兩個array！ --
+//const arrayOne = ["a", "b", "c"];
+//const arrayTwo = [1, 2, 3];
+//const arraysCombined = [...arrayOne, ...arrayTwo];
+//#endregion
+
+//三元運算子的英文︰ternary operator statement
+
+//#region ES5和ES6的不同！
+//https://ithelp.ithome.com.tw/articles/10200539
+//ES5: 語法
+//React.createElement(type, [props], [...children]);
+//ES5: 例子
+// const paragraph = React.createElement(
+//   "p",
+//   {},
+//   "This is a paragraph without using JSX!"
+// );
+// const root = ReactDOM.createRoot(document.getElementById("root"));
+// root.render(paragraph);
+//ES6: 對應例子
+//const paragraph = <p>This is a paragraph using JSX!</p>;
+
+//ES6可以用JSX : (將 元素 和 公式 混在一起！)
+//const myelement = <h1> React is {10 * 10} times better with JSX! </h1>;
+//記得設定class的時候，用className︰
+//const title = <h1 className="primary">Hello World!</h1>;
+
+//#endregion
+
+// React 的 function 和 class 名稱都要記得大寫作開頭！(因為function就是class，而class要被Render就…)
+
+//#region 多用 && 來判斷是否顯示什麼！有了JSX之後的大優點！
+// function App({ isLoggedIn }) {
+//   return (
+//     <>
+//       <h1>My Application</h1>
+//       {isLoggedIn && <Profile />}
+//     </>
+//   );
+// }
+//#endregion
+
+//#region 如果要用迴圈生成ele，記得要用 key (allows React to keep track of elements in lists.)
+//   return (
+//     <>
+//       <h1>Grocery List</h1>
+//       <ul>
+//         {items.map((item) => <li key={item.id}>{item.name}</li>)}
+//       </ul>
+//     </>
+//#endregion
+
+//#region style 追設定時，有特別的要求
+
+//在Css時這樣寫︰
+//background-color : "yellow"
+
+//在JSX之中，用駝峰字︰
+// const Header = () => {
+//   return (
+//     <>
+//       <h1 style={{ backgroundColor: "yellow" }}>Hello Style!</h1>
+//       <p>Add a little style!</p>
+//     </>
+//   );
+// };
+
+//#endregion
+
+//#region import Css 檔案，而不是引用 js檔 來要一個React相關的東東…
+//import "./App.css";
+//#endregion
+
+//Name this CSS file so that it can be imported as a Module.?
+//header.module.css:
+//這個是用來做什麼的？我真不知道，只是記錄有這個題目？
 
 
 
 // 超多實用例子！︰
 // https://usehooks.com/
+
+root.render(<U_Toggle_App />);
+
+//做到這裡，暫停！
+
+
+
+
 
 
 //其他Hook︰
@@ -372,7 +488,3 @@ root.render(<CALL_USE2 />);
 //https://reactjs.org/community/courses.html
 //JavaScript的溫習︰
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript
-
-
-
-
