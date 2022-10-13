@@ -61,7 +61,7 @@ import MEM_USE from "./App/w3school/MEM_USE";
 import CALL_USE2 from "./App/w3school/CALL_USE2";
 
 import U_Toggle_App from "./App/UseCHook/UseToggle_E";
-
+//import U_Toggle_App_T from "./App/UseCHook/UseToggle_T.ts";
 
 
 
@@ -467,19 +467,15 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 // 超多實用例子！︰
 // https://usehooks.com/
-
-root.render(<U_Toggle_App />);
+root.render(<U_Toggle_App />);//Javascript版本
+//root.render(<U_Toggle_App_T />);//Typescript版本(我下一個目標是這個，所以先預習)
+//Typescript版本 出現Error，而我無法理解，只能先放下了…
 
 //做到這裡，暫停！
-
-
-
-
-
+//我要去學Angular和Typescript了，我有點後悔沒有將React和Typescript順便合在一起去學會…
 
 //其他Hook︰
 //https://medium.com/hannah-lin/react-hook-%E7%AD%86%E8%A8%98-memorized-hook-usememo-usecallback-e08a5e1bc9a2
-
 //https://reactjs.org/docs/hooks-faq.html
 
 //幼幼班︰
