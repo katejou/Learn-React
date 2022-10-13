@@ -12,4 +12,4 @@ https://ithelp.ithome.com.tw/users/20116826/ironman/2278 \
 是我決定到React的官網，去實作最新和實用的技術。\
 途中也參考了w3schools的教學，實作和理解它的例子。\
 還有很多很多來源，我都有在程式碼中以注解列出來。\
-目前進行中…
+目前告一段落，要去學習Angular和Typescript了…\
