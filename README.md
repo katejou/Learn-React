@@ -17,4 +17,5 @@ https://ithelp.ithome.com.tw/users/20116826/ironman/2278 \
 ### my-project
 
 是我還沒有開始做的 Typescript + React 練習\
-只是先放著，提醒自己有這件事…(有點後悔沒有一開始就以Typescript來學React) \
+只是先放著，提醒自己有這件事…
+(有點後悔沒有一開始就以Typescript來學React) 
