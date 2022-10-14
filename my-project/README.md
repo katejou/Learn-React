@@ -1,7 +1,7 @@
-# 這個 my-project 是我預計來實作 React 結合 typescript 的，但我現在還在學Angular，還沒有開始…
+## 這個 my-project 是我預計來實作 React 結合 typescript 的，但我現在還在學Angular，還沒有開始…
 只是建了，就先放著，某天有空再來練/學習 \
 建立的指令是出自︰https://ithelp.ithome.com.tw/articles/10226481 \
-npx create-react-app my-project --typescript \
+npx create-react-app my-project --typescript 
 
 # Getting Started with Create React App
 
