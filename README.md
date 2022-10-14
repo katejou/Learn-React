@@ -13,3 +13,8 @@ https://ithelp.ithome.com.tw/users/20116826/ironman/2278 \
 途中也參考了w3schools的教學，實作和理解它的例子。\
 還有很多很多來源，我都有在程式碼中以注解列出來。\
 目前告一段落，要去學習Angular和Typescript了…
+
+### my-project
+
+是我還沒有開始做的 Typescript + React 練習\
+只是先放著，提醒自己有這件事…(有點後悔沒有一開始就以Typescript來學React) \
