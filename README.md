@@ -1,5 +1,7 @@
 # To Learn React
 
+I implemented the lessons on the official website and also a few web resources to learn React step by step.
+
 ### hello world
 
 主要是依照Andy Chang的教學︰\
